@@ -1,20 +1,20 @@
 import {Request, Response, Router} from 'express'
-import {productRepository} from "../repositories/product-repository"
-import {body, validationResult} from "express-validator";
+import {productService} from "../domain/product-service"
+import {body} from "express-validator"
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 
 export const productRouter = Router({})
 
-const titleValidation = body('title').trim().isLength({min: 3, max: 10}).withMessage('Title length should be from 3 to 10 symbols')
+const titleValidation = body('title', 'Less than 3 or more than 10').trim().isLength({min: 3, max: 10})
 
 productRouter.get('/', (req:Request, res: Response) => {
-    res.json(productRepository.getAllProduct())
+    res.json(productService.getAllProduct())
 })
 
 productRouter.post('/',
     titleValidation,
     inputValidationMiddleware,
     (req:Request, res: Response) => {
-    res.json(productRepository.createProduct(req.body.title, req.body.weight))
+    res.json(productService.createProduct(req.body.title, req.body.weight))
 })
 

@@ -10,13 +10,8 @@ export const productRepository = {
     getAllProduct () {
         return db.product
     },
-    createProduct(title: string, weight: string) {
-        const product = {
-            id: +(new Date()),
-            title: title,
-            weight: weight
-        }
-        db.product.push(product)
-        return product
+    createProduct(newProduct:{id:number, title:string, weight:string}) {
+        db.product.push(newProduct)
+        return newProduct
     }
 }
